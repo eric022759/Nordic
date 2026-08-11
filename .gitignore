@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Next.js static and intermediate output
+.next/
+out/
+
+# Test and local tooling output
+coverage/
+playwright-report/
+test-results/
+*.tsbuildinfo
+
+# Local caches and logs
+.cache/
+.eslintcache
+npm-debug.log*
+
+# Local environment files are not used by this project
+.env*
+
+# Operating-system files
+.DS_Store
+Thumbs.db
+
+# Private itinerary documents
+*.pdf

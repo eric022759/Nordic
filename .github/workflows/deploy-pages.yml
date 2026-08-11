@@ -1,0 +1,85 @@
+name: Deploy Nordic trip site to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Lint, test, and build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm run test
+
+      - name: Build static export
+        run: npm run build
+
+      - name: Verify exported routes and cache retirement
+        shell: bash
+        run: |
+          set -euo pipefail
+          tracked_pdfs="$(git ls-files | grep -Ei '\.pdf$' || true)"
+          if [ -n "$tracked_pdfs" ]; then
+            echo 'Tracked PDF files are not allowed in this public repository.' >&2
+            printf '%s\n' "$tracked_pdfs" >&2
+            exit 1
+          fi
+          test -f out/index.html
+          test -f out/itinerary/index.html
+          test -f out/destinations/index.html
+          test -f out/prepare/index.html
+          test -f out/info/index.html
+          test -f out/sw.js
+          test ! -e out/manifest.webmanifest
+          test -z "$(find out -type f -iname '*.pdf' -print -quit)"
+          test -f out/icons/icon-192.png
+          test -f out/icons/icon-512.png
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./out
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
