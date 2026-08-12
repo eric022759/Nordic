@@ -1,4 +1,9 @@
 import { createGoogleMapsUrl } from "@/lib/maps";
+import {
+  ACCOMMODATION_GOOGLE_MAPS_URLS_BY_DAY,
+  ACTIVITY_GOOGLE_MAPS_LINKS,
+  ACTIVITY_GOOGLE_MAPS_URLS,
+} from "@/data/google-maps";
 import type {
   Accommodation,
   Activity,
@@ -79,6 +84,12 @@ function activity(
   sourceReference: string,
 ): Activity {
   const mapsCoordinates = mapsQuery ? activityMapCoordinates[mapsQuery] : undefined;
+  const approvedMapsUrl = mapsQuery
+    ? (ACTIVITY_GOOGLE_MAPS_URLS as Readonly<Record<string, string>>)[mapsQuery]
+    : undefined;
+  const approvedMapsLinks = mapsQuery
+    ? (ACTIVITY_GOOGLE_MAPS_LINKS as Readonly<Record<string, readonly { label: string; url: string }[]>>)[mapsQuery]
+    : undefined;
 
   if (mapsQuery && !mapsCoordinates) {
     throw new Error("Missing verified coordinates for activity map: " + mapsQuery);
@@ -91,9 +102,10 @@ function activity(
     destinationId,
     mapsQuery,
     mapsCoordinates,
-    mapsUrl: mapsQuery && mapsCoordinates
+    mapsUrl: approvedMapsUrl ?? (mapsQuery && mapsCoordinates
       ? createGoogleMapsUrl(mapsQuery, mapsCoordinates)
-      : undefined,
+      : undefined),
+    mapsLinks: approvedMapsLinks,
     status,
     sourceReference,
   };
@@ -121,11 +133,13 @@ function accommodation(
   address: string,
   sourceReference: string,
   note?: string,
+  mapsUrl?: string,
 ): Accommodation {
   return {
     name,
     cityOrRegion,
     notes: [address, note].filter(Boolean).join("；"),
+    mapsUrl,
     status: "confirmed",
     sourceReference,
   };
@@ -264,6 +278,8 @@ export const itinerary: DayItinerary[] = [
       "哥本哈根",
       "Ørestads Blvd. 114–118, 2300 København, Denmark",
       source("1"),
+      undefined,
+      ACCOMMODATION_GOOGLE_MAPS_URLS_BY_DAY[2],
     ),
     weatherLocationIds: ["copenhagen"],
     status: "confirmed",
@@ -322,6 +338,8 @@ export const itinerary: DayItinerary[] = [
       "哥特堡",
       "Maskingatan 11, 417 64 Göteborg, Sweden",
       source("1"),
+      undefined,
+      ACCOMMODATION_GOOGLE_MAPS_URLS_BY_DAY[3],
     ),
     weatherLocationIds: ["copenhagen", "oresund-bridge", "gothenburg"],
     status: "confirmed",
@@ -371,6 +389,8 @@ export const itinerary: DayItinerary[] = [
       "蓋羅",
       "Bakkestølvegen 81, 3580 Geilo, Norway",
       source("2"),
+      undefined,
+      ACCOMMODATION_GOOGLE_MAPS_URLS_BY_DAY[4],
     ),
     weatherLocationIds: ["gothenburg", "oslo", "geilo"],
     status: "confirmed",
@@ -438,6 +458,8 @@ export const itinerary: DayItinerary[] = [
       "卑爾根",
       "Lønningsvegen 9, 5258 Blomsterdalen, Norway",
       source("2"),
+      undefined,
+      ACCOMMODATION_GOOGLE_MAPS_URLS_BY_DAY[5],
     ),
     weatherLocationIds: ["geilo", "voringsfossen", "hardangerfjord-bridge", "bergen"],
     status: "confirmed",
@@ -524,6 +546,8 @@ export const itinerary: DayItinerary[] = [
       "Sogndal／索娜峽灣",
       "Gravensteinsgata 5, 6851 Sogndal, Norway",
       source("2"),
+      undefined,
+      ACCOMMODATION_GOOGLE_MAPS_URLS_BY_DAY[6],
     ),
     weatherLocationIds: ["bergen", "voss-myrdal", "flam", "sognefjord"],
     status: "confirmed",
@@ -596,6 +620,8 @@ export const itinerary: DayItinerary[] = [
       "蓋朗格峽灣",
       "Geirangervegen 22, 6216 Geiranger, Norway",
       source("2"),
+      undefined,
+      ACCOMMODATION_GOOGLE_MAPS_URLS_BY_DAY[7],
     ),
     weatherLocationIds: ["sognefjord", "briksdal-glacier", "geirangerfjord"],
     status: "confirmed",
@@ -666,6 +692,8 @@ export const itinerary: DayItinerary[] = [
       "哈瑪爾",
       "Strandgata 21, 2317 Hamar, Norway",
       source("2"),
+      undefined,
+      ACCOMMODATION_GOOGLE_MAPS_URLS_BY_DAY[8],
     ),
     weatherLocationIds: ["geirangerfjord", "geiranger-trollstigen", "lillehammer", "hamar"],
     status: "confirmed",
@@ -733,6 +761,8 @@ export const itinerary: DayItinerary[] = [
       "厄勒布魯",
       "Kungsgatan 14, 702 11 Örebro, Sweden",
       source("2"),
+      undefined,
+      ACCOMMODATION_GOOGLE_MAPS_URLS_BY_DAY[9],
     ),
     weatherLocationIds: ["hamar", "oslo", "orebro"],
     status: "confirmed",
@@ -868,6 +898,8 @@ export const itinerary: DayItinerary[] = [
       "赫爾辛基",
       "Mannerheimintie 46, 00260 Helsinki, Finland",
       source("3"),
+      undefined,
+      ACCOMMODATION_GOOGLE_MAPS_URLS_BY_DAY[11],
     ),
     weatherLocationIds: ["helsinki", "porvoo"],
     status: "confirmed",

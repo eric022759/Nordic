@@ -1,4 +1,5 @@
 import { createGoogleMapsUrl } from "@/lib/maps";
+import { DESTINATION_GOOGLE_MAPS_URLS } from "@/data/google-maps";
 import type { Destination } from "@/types/trip";
 
 const LAST_REVIEWED_AT = "2026-08-11";
@@ -73,10 +74,13 @@ type DestinationSeed = Omit<
 
 function defineDestination(seed: DestinationSeed): Destination {
   const advice = countryAdvice[seed.country];
+  const approvedMapsUrl = (
+    DESTINATION_GOOGLE_MAPS_URLS as Readonly<Record<string, string>>
+  )[seed.id];
 
   return {
     ...seed,
-    mapsUrl: createGoogleMapsUrl(seed.mapsQuery, {
+    mapsUrl: approvedMapsUrl ?? createGoogleMapsUrl(seed.mapsQuery, {
       latitude: seed.latitude,
       longitude: seed.longitude,
     }),

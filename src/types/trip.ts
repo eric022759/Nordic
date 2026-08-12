@@ -11,6 +11,7 @@ export interface Trip {
   title: string;
   subtitle?: string;
   productCode?: string;
+  travelAgencyName: string;
   startDate: string;
   endDate: string;
   countries: string[];
@@ -27,6 +28,7 @@ export interface Activity {
   mapsQuery?: string;
   mapsCoordinates?: GeoCoordinates;
   mapsUrl?: string;
+  mapsLinks?: readonly MapLink[];
   status: Status;
   sourceReference: string;
 }
@@ -43,10 +45,16 @@ export interface Transport {
   sourceReference: string;
 }
 
+export interface MapLink {
+  label: string;
+  url: string;
+}
+
 export interface Accommodation {
   name?: string;
   cityOrRegion: string;
   notes?: string;
+  mapsUrl?: string;
   status: Status;
   sourceReference: string;
 }

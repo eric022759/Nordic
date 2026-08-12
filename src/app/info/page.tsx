@@ -93,7 +93,7 @@ export default function InfoPage() {
               <div className="flex items-start gap-4">
                 <BookOpenCheck aria-hidden="true" className="mt-1 h-6 w-6 shrink-0 text-[var(--pine-700)]" />
                 <div>
-                  <h3 className="text-lg font-semibold text-[var(--pine-950)]">上順旅行社產品頁</h3>
+                  <h3 className="text-lg font-semibold text-[var(--pine-950)]">{trip.travelAgencyName}產品頁</h3>
                   <p className="text-muted mt-2 leading-7">用於補充產品背景；若與確認版行程表或現場通知不一致，以後兩者為準。</p>
                   <a
                     href={trip.sourceUrls[0]}

@@ -114,6 +114,11 @@ function ActivityList({
             <ol className="space-y-3">
               {periodActivities.map((activity, index) => {
                 const mapsUrl = getMapUrl(activity);
+                const mapsLinks = activity.mapsLinks?.length
+                  ? activity.mapsLinks
+                  : mapsUrl
+                    ? [{ label: activity.name + " Google Maps", url: mapsUrl }]
+                    : [];
                 return (
                   <li
                     key={`${activity.name}-${index}`}
@@ -130,17 +135,27 @@ function ActivityList({
                       </div>
                       <StatusBadge status={activity.status} />
                     </div>
-                    {mapsUrl ? (
-                      <a
-                        className="mt-3 inline-flex min-h-11 items-center gap-2 rounded-full px-1 text-sm font-semibold text-[var(--pine-700)] underline decoration-[var(--brass-400)] underline-offset-4 transition-colors hover:text-[var(--pine-950)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--brass-500)] motion-reduce:transition-none"
-                        href={mapsUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                    {mapsLinks.length ? (
+                      <div
+                        className="mt-3 flex flex-wrap gap-x-4 gap-y-1"
+                        role="group"
+                        aria-label={activity.name + " Google Maps 連結"}
                       >
-                        <MapPin className="size-4" aria-hidden />
-                        Google Maps
-                        <ArrowUpRight className="size-3.5" aria-hidden />
-                      </a>
+                        {mapsLinks.map((link) => (
+                          <a
+                            key={link.label + "-" + link.url}
+                            className="inline-flex min-h-11 items-center gap-2 rounded-full px-1 text-sm font-semibold text-[var(--pine-700)] underline decoration-[var(--brass-400)] underline-offset-4 transition-colors hover:text-[var(--pine-950)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--brass-500)] motion-reduce:transition-none"
+                            href={link.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={"在 Google Maps 開啟 " + link.label + "（新分頁）"}
+                          >
+                            <MapPin className="size-4" aria-hidden />
+                            {link.label}
+                            <ArrowUpRight className="size-3.5" aria-hidden />
+                          </a>
+                        ))}
+                      </div>
                     ) : null}
                   </li>
                 );
@@ -263,6 +278,19 @@ function DayDetails({
             ) : null}
             {day.accommodation.notes ? (
               <p className="mt-3 text-sm leading-6 text-[var(--stone-500)]">{day.accommodation.notes}</p>
+            ) : null}
+            {day.accommodation.mapsUrl ? (
+              <a
+                className="mt-3 inline-flex min-h-11 items-center gap-2 rounded-full px-1 text-sm font-semibold text-[var(--pine-700)] underline decoration-[var(--brass-400)] underline-offset-4 transition-colors hover:text-[var(--pine-950)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--brass-500)] motion-reduce:transition-none"
+                href={day.accommodation.mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={"在 Google Maps 開啟 " + (day.accommodation.name ?? day.accommodation.cityOrRegion) + "（新分頁）"}
+              >
+                <Navigation className="size-4" aria-hidden />
+                Google Maps
+                <ArrowUpRight className="size-3.5" aria-hidden />
+              </a>
             ) : null}
           </section>
         ) : null}

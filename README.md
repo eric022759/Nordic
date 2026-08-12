@@ -94,7 +94,7 @@ out/sw.js
 
 1. 先在安全的本機位置核對旅行社最新版確認文件；再以旅行社原始頁補足背景。旅行社 PDF 不得提交至 repository；不可自行猜測缺漏的航班、飯店、時間、交通或預約資訊。
 2. 更新 `src/data/*.ts`。每日行程與目的地資料要保留 `sourceReference`、`status` 與 `lastReviewedAt`。
-3. 若新增地點，同步補齊座標、IANA timezone、Google Maps query、文化摘要、相關 Day 與合法圖片 attribution。
+3. 若新增地點，先在 `src/data/google-maps.ts` 對應旅客的 Google Maps 共用清單精準 Place URL；清單沒有唯一對應時才保留已稽核的座標 fallback，並同步補齊 IANA timezone、文化摘要、相關 Day 與合法圖片 attribution。
 4. 執行 `npm run lint`、`npm run test`、`npm run build`。
 5. 執行 `npx serve out`，逐頁檢查五個 route、內部連結、Google Maps 外連、mobile navigation、13 日內容、天氣狀態與 repository subpath assets。
 6. 只提交預期檔案並 push 至 `main`。
@@ -126,7 +126,7 @@ out/sw.js
 
 ## 資料來源
 
-- [上順旅行社原始行程頁](https://www.unotour.com.tw/03_category_info.asp?sn=47906)。
+- [行健旅行社原始行程頁](https://www.unotour.com.tw/03_category_info.asp?sn=47906)。
 - [Open-Meteo Forecast API](https://open-meteo.com/)（僅供近期天氣參考）。
 
 旅行社來源會整理成繁體中文原創摘要，不應大段複製。圖片來源、作者與授權／使用說明請在資料檔及 `/info/` 保留。

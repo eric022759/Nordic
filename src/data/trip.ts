@@ -4,6 +4,7 @@ export const trip: Trip = {
   title: "北歐四國．三大峽灣全覽 13 日",
   subtitle: "丹麥、瑞典、挪威、芬蘭｜2026 夏末私人旅行手冊",
   productCode: "NEU13TK260828A",
+  travelAgencyName: "行健旅行社",
   startDate: "2026-08-28",
   endDate: "2026-09-09",
   countries: ["丹麥", "瑞典", "挪威", "芬蘭"],

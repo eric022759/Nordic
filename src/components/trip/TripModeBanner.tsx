@@ -167,6 +167,7 @@ export function TripModeBanner({
     (activity) => activity.status === "confirmed",
   );
   const mapUrl = confirmedHighlight?.mapsUrl ?? current.destination?.mapsUrl;
+  const hasMultipleMapPlaces = (confirmedHighlight?.mapsLinks?.length ?? 0) > 1;
   const city = current.day.endLocation ?? current.destination?.name ?? current.day.title;
   const hasWeatherDestination = current.day.weatherLocationIds.length > 0;
 
@@ -197,7 +198,12 @@ export function TripModeBanner({
             天氣入口
           </Link>
         ) : null}
-        {mapUrl ? (
+        {hasMultipleMapPlaces ? (
+          <Link className={linkClass} href={`/itinerary#day-${current.day.day}`}>
+            今日地圖清單
+            <ArrowRight className="size-4" aria-hidden />
+          </Link>
+        ) : mapUrl ? (
           <a
             className={linkClass}
             href={mapUrl}

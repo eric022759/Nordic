@@ -81,8 +81,17 @@ for (let day = 1; day <= 13; day += 1) {
   }
 }
 
+const exactGoogleMapsPlaceLinks =
+  itineraryHtml.match(/https:\/\/www\.google\.com\/maps\/place\//g) ?? [];
+
+if (exactGoogleMapsPlaceLinks.length < 10) {
+  failures.push(
+    `行程初始 HTML 的 Google Maps 精準地點連結不足（${exactGoogleMapsPlaceLinks.length}/10）`,
+  );
+}
+
 if (!itineraryHtml.includes("https://www.google.com/maps/search/?api=1")) {
-  failures.push("行程初始 HTML 缺少 Google Maps 外連");
+  failures.push("行程初始 HTML 缺少未能由共用清單確認之地點的座標 fallback");
 }
 
 const allHtml = requiredPages
