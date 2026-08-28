@@ -137,7 +137,7 @@ export default function HomePage() {
               </div>
               <div>
                 <dt>同行</dt>
-                <dd>家族私人旅行</dd>
+                <dd>家族旅遊</dd>
               </div>
             </dl>
 
