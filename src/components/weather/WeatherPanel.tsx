@@ -9,11 +9,13 @@ import {
   CloudRain,
   CloudSnow,
   CloudSun,
+  Droplets,
   LoaderCircle,
   RefreshCw,
   Snowflake,
   Sun,
   Thermometer,
+  ThermometerSun,
   TriangleAlert,
   WifiOff,
   Wind,
@@ -618,15 +620,35 @@ export function WeatherPanel({
                         <p className="mt-2 min-h-10 text-xs leading-5 text-[#4d5c54]">
                           {condition.description}
                         </p>
-                        <dl className="mt-2 space-y-1 text-xs text-[#4d5c54]">
-                          <div className="flex items-baseline gap-1.5 whitespace-nowrap">
-                            <dt className="shrink-0 text-[#5f6d65]">天氣</dt>
+                        <dl className="mt-2 space-y-1.5 text-xs text-[#4d5c54]">
+                          <div
+                            className="flex items-center gap-1.5 whitespace-nowrap"
+                            title="天氣"
+                          >
+                            <dt className="shrink-0">
+                              <Thermometer
+                                aria-hidden="true"
+                                className="size-3.5 text-[#8a6d33]"
+                                strokeWidth={1.6}
+                              />
+                              <span className="sr-only">天氣</span>
+                            </dt>
                             <dd className="font-semibold tabular-nums text-[#183128]">
                               {temperatureRange(day.temperatureMin, day.temperatureMax)}
                             </dd>
                           </div>
-                          <div className="flex items-baseline gap-1.5 whitespace-nowrap">
-                            <dt className="shrink-0 text-[#5f6d65]">體感</dt>
+                          <div
+                            className="flex items-center gap-1.5 whitespace-nowrap"
+                            title="體感"
+                          >
+                            <dt className="shrink-0">
+                              <ThermometerSun
+                                aria-hidden="true"
+                                className="size-3.5 text-[#8a6d33]"
+                                strokeWidth={1.6}
+                              />
+                              <span className="sr-only">體感</span>
+                            </dt>
                             <dd className="tabular-nums">
                               {temperatureRange(
                                 day.apparentTemperatureMin,
@@ -634,8 +656,18 @@ export function WeatherPanel({
                               )}
                             </dd>
                           </div>
-                          <div className="flex items-baseline gap-1.5 whitespace-nowrap">
-                            <dt className="shrink-0 text-[#5f6d65]">濕度</dt>
+                          <div
+                            className="flex items-center gap-1.5 whitespace-nowrap"
+                            title="濕度"
+                          >
+                            <dt className="shrink-0">
+                              <Droplets
+                                aria-hidden="true"
+                                className="size-3.5 text-[#8a6d33]"
+                                strokeWidth={1.6}
+                              />
+                              <span className="sr-only">濕度</span>
+                            </dt>
                             <dd className="tabular-nums">
                               {metric(day.relativeHumidityMean, "%")}
                             </dd>
