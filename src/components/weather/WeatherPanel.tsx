@@ -12,10 +12,10 @@ import {
   Droplets,
   LoaderCircle,
   RefreshCw,
+  PersonStanding,
   Snowflake,
   Sun,
   Thermometer,
-  ThermometerSun,
   TriangleAlert,
   WifiOff,
   Wind,
@@ -538,29 +538,29 @@ export function WeatherPanel({
             </p>
           ) : null}
 
-          <div className="grid gap-5 lg:grid-cols-[1.05fr_1.95fr]">
-            <div className="rounded-2xl bg-[#17372c] p-5 text-white">
-              <p className="text-sm text-[#cbd8d1]">目前天氣</p>
+          <div className="grid gap-5 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,2.25fr)]">
+            <div className="rounded-2xl bg-[#17372c] p-4 text-white">
+              <p className="text-xs text-[#cbd8d1]">目前天氣</p>
               {state.data.current ? (
                 <>
                   <div className="mt-4 flex items-center gap-4">
                     <WeatherConditionIcon
                       code={state.data.current.weather_code}
-                      className="size-12 text-[#e0cf9c]"
+                      className="size-9 text-[#e0cf9c]"
                     />
                     <div>
-                      <p className="text-4xl font-light tabular-nums">
+                      <p className="text-3xl font-light tabular-nums">
                         {metric(state.data.current.temperature_2m, "°")}
                       </p>
-                      <p className="mt-1 text-sm text-[#d8e1dc]">
+                      <p className="mt-1 text-xs text-[#d8e1dc]">
                         {currentCondition.description}
                       </p>
                     </div>
                   </div>
-                  <dl className="mt-5 grid grid-cols-2 gap-3 border-t border-white/15 pt-4 text-sm">
+                  <dl className="mt-4 grid grid-cols-2 gap-2 border-t border-white/15 pt-3 text-xs">
                     <div>
                       <dt className="flex items-center gap-1.5 text-[#b9c9c0]">
-                        <Thermometer aria-hidden="true" className="size-4" />
+                        <PersonStanding aria-hidden="true" className="size-4" />
                         體感
                       </dt>
                       <dd className="mt-1 tabular-nums">
@@ -598,7 +598,7 @@ export function WeatherPanel({
                     return (
                       <li
                         key={day.date}
-                        className={`rounded-xl border p-3 ${
+                        className={`rounded-xl border p-2.5 ${
                           isTripDate
                             ? "border-[#9a8657] bg-[#f3eee2]"
                             : "border-[#d8ded9] bg-white"
@@ -620,7 +620,7 @@ export function WeatherPanel({
                         <p className="mt-2 min-h-10 text-xs leading-5 text-[#4d5c54]">
                           {condition.description}
                         </p>
-                        <dl className="mt-2 space-y-1.5 text-xs text-[#4d5c54]">
+                        <dl className="mt-2 space-y-1.5 text-[11px] leading-4 text-[#4d5c54]">
                           <div
                             className="flex items-center gap-1.5 whitespace-nowrap"
                             title="天氣"
@@ -628,7 +628,7 @@ export function WeatherPanel({
                             <dt className="shrink-0">
                               <Thermometer
                                 aria-hidden="true"
-                                className="size-3.5 text-[#8a6d33]"
+                                className="size-3 text-[#8a6d33]"
                                 strokeWidth={1.6}
                               />
                               <span className="sr-only">天氣</span>
@@ -642,9 +642,9 @@ export function WeatherPanel({
                             title="體感"
                           >
                             <dt className="shrink-0">
-                              <ThermometerSun
+                              <PersonStanding
                                 aria-hidden="true"
-                                className="size-3.5 text-[#8a6d33]"
+                                className="size-3 text-[#8a6d33]"
                                 strokeWidth={1.6}
                               />
                               <span className="sr-only">體感</span>
@@ -663,7 +663,7 @@ export function WeatherPanel({
                             <dt className="shrink-0">
                               <Droplets
                                 aria-hidden="true"
-                                className="size-3.5 text-[#8a6d33]"
+                                className="size-3 text-[#8a6d33]"
                                 strokeWidth={1.6}
                               />
                               <span className="sr-only">濕度</span>
