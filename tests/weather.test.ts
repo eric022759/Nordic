@@ -11,6 +11,7 @@ import {
   fetchWeatherForecast,
   formatWeatherDate,
   formatWeatherUpdatedAt,
+  formatWeatherWeekday,
   getNextFiveDayForecast,
   getTripForecastMessage,
   getWmoWeather,
@@ -48,8 +49,9 @@ const payload = {
     weather_code: [2, 3, 61, 0, 45, 95],
     temperature_2m_max: [18, 17, 16, 19, 17, 15],
     temperature_2m_min: [12, 11, 10, 12, 10, 9],
-    precipitation_probability_max: [20, 30, 60, 10, 25, 70],
-    wind_speed_10m_max: [20, 18, 25, 12, 15, 28],
+    apparent_temperature_max: [17, 16, 15, 18, 16, 14],
+    apparent_temperature_min: [11, 10, 9, 11, 9, 8],
+    relative_humidity_2m_mean: [80, 97, 90, 70, 75, 99],
   },
 };
 
@@ -153,7 +155,8 @@ describe("forecast range and destination timezone", () => {
   });
 
   it("formats dates and update time in the destination timezone", () => {
-    expect(formatWeatherDate("2026-08-29", destination.timezone)).toContain(
+    expect(formatWeatherDate("2026-08-29", destination.timezone)).toBe("8/29");
+    expect(formatWeatherWeekday("2026-08-29", destination.timezone)).toBe(
       "週六",
     );
     const formatted = formatWeatherUpdatedAt(

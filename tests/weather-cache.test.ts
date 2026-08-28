@@ -57,8 +57,9 @@ const forecast = normalizeWeatherForecast({
     weather_code: [3, 61],
     temperature_2m_max: [16, 15],
     temperature_2m_min: [10, 9],
-    precipitation_probability_max: [30, 60],
-    wind_speed_10m_max: [18, 22],
+    apparent_temperature_max: [15, 14],
+    apparent_temperature_min: [9, 8],
+    relative_humidity_2m_mean: [82, 96],
   },
 })!;
 

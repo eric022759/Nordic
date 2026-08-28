@@ -9,7 +9,6 @@ import {
   CloudRain,
   CloudSnow,
   CloudSun,
-  Droplets,
   LoaderCircle,
   RefreshCw,
   Snowflake,
@@ -42,6 +41,7 @@ import {
 } from "@/lib/weather-cache";
 import {
   formatWeatherDate,
+  formatWeatherWeekday,
   formatWeatherUpdatedAt,
   getNextFiveDayForecast,
   getTripForecastMessage,
@@ -104,6 +104,13 @@ function isBrowserOffline(): boolean {
 
 function metric(value: number | null, suffix: string): string {
   return value === null ? "—" : `${Math.round(value)}${suffix}`;
+}
+
+function temperatureRange(min: number | null, max: number | null): string {
+  if (min === null || max === null) {
+    return "—";
+  }
+  return `${Math.round(min)}–${Math.round(max)}°C`;
 }
 
 function WeatherConditionIcon({
@@ -597,10 +604,13 @@ export function WeatherPanel({
                       >
                         <time
                           dateTime={day.date}
-                          className="text-xs font-medium text-[#4d5c54]"
+                          className="block whitespace-nowrap text-sm font-semibold tabular-nums text-[#183128]"
                         >
                           {formatWeatherDate(day.date, destination.timezone)}
                         </time>
+                        <p className="mt-0.5 whitespace-nowrap text-xs text-[#4d5c54]">
+                          {formatWeatherWeekday(day.date, destination.timezone)}
+                        </p>
                         <WeatherConditionIcon
                           code={day.weatherCode}
                           className="mt-3 size-7 text-[#365c4b]"
@@ -608,22 +618,27 @@ export function WeatherPanel({
                         <p className="mt-2 min-h-10 text-xs leading-5 text-[#4d5c54]">
                           {condition.description}
                         </p>
-                        <p className="mt-1 text-sm font-semibold tabular-nums">
-                          {metric(day.temperatureMax, "°")} /{" "}
-                          <span className="font-normal text-[#5f6d65]">
-                            {metric(day.temperatureMin, "°")}
-                          </span>
-                        </p>
-                        <dl className="mt-2 space-y-1 text-xs text-[#5f6d65]">
-                          <div className="flex items-center gap-1">
-                            <Droplets aria-hidden="true" className="size-3.5" />
-                            <dt className="sr-only">降雨機率</dt>
-                            <dd>{metric(day.precipitationProbabilityMax, "%")}</dd>
+                        <dl className="mt-2 space-y-1 text-xs text-[#4d5c54]">
+                          <div className="flex items-baseline gap-1.5 whitespace-nowrap">
+                            <dt className="shrink-0 text-[#5f6d65]">天氣</dt>
+                            <dd className="font-semibold tabular-nums text-[#183128]">
+                              {temperatureRange(day.temperatureMin, day.temperatureMax)}
+                            </dd>
                           </div>
-                          <div className="flex items-center gap-1">
-                            <Wind aria-hidden="true" className="size-3.5" />
-                            <dt className="sr-only">最大風速</dt>
-                            <dd>{metric(day.windSpeedMax, " km/h")}</dd>
+                          <div className="flex items-baseline gap-1.5 whitespace-nowrap">
+                            <dt className="shrink-0 text-[#5f6d65]">體感</dt>
+                            <dd className="tabular-nums">
+                              {temperatureRange(
+                                day.apparentTemperatureMin,
+                                day.apparentTemperatureMax,
+                              )}
+                            </dd>
+                          </div>
+                          <div className="flex items-baseline gap-1.5 whitespace-nowrap">
+                            <dt className="shrink-0 text-[#5f6d65]">濕度</dt>
+                            <dd className="tabular-nums">
+                              {metric(day.relativeHumidityMean, "%")}
+                            </dd>
                           </div>
                         </dl>
                       </li>

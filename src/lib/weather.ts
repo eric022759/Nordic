@@ -14,8 +14,9 @@ export const OPEN_METEO_DAILY_FIELDS = [
   "weather_code",
   "temperature_2m_max",
   "temperature_2m_min",
-  "precipitation_probability_max",
-  "wind_speed_10m_max",
+  "apparent_temperature_max",
+  "apparent_temperature_min",
+  "relative_humidity_2m_mean",
 ] as const;
 
 export const OPEN_METEO_FORECAST_DAYS = 6;
@@ -104,8 +105,9 @@ export interface DailyWeather {
   weather_code: Array<number | null>;
   temperature_2m_max: Array<number | null>;
   temperature_2m_min: Array<number | null>;
-  precipitation_probability_max: Array<number | null>;
-  wind_speed_10m_max: Array<number | null>;
+  apparent_temperature_max: Array<number | null>;
+  apparent_temperature_min: Array<number | null>;
+  relative_humidity_2m_mean: Array<number | null>;
 }
 
 export interface WeatherForecast {
@@ -119,8 +121,9 @@ export interface DailyForecastItem {
   weatherCode: number | null;
   temperatureMax: number | null;
   temperatureMin: number | null;
-  precipitationProbabilityMax: number | null;
-  windSpeedMax: number | null;
+  apparentTemperatureMax: number | null;
+  apparentTemperatureMin: number | null;
+  relativeHumidityMean: number | null;
 }
 
 type UnknownRecord = Record<string, unknown>;
@@ -187,10 +190,11 @@ export function normalizeWeatherForecast(
     weather_code: numberArray(dailyValue.weather_code),
     temperature_2m_max: numberArray(dailyValue.temperature_2m_max),
     temperature_2m_min: numberArray(dailyValue.temperature_2m_min),
-    precipitation_probability_max: numberArray(
-      dailyValue.precipitation_probability_max,
+    apparent_temperature_max: numberArray(dailyValue.apparent_temperature_max),
+    apparent_temperature_min: numberArray(dailyValue.apparent_temperature_min),
+    relative_humidity_2m_mean: numberArray(
+      dailyValue.relative_humidity_2m_mean,
     ),
-    wind_speed_10m_max: numberArray(dailyValue.wind_speed_10m_max),
   };
 
   if (!current && daily.time.every((date) => !date)) {
@@ -372,9 +376,12 @@ export function getNextFiveDayForecast(
           forecast.daily.temperature_2m_max[index] ?? null,
         temperatureMin:
           forecast.daily.temperature_2m_min[index] ?? null,
-        precipitationProbabilityMax:
-          forecast.daily.precipitation_probability_max[index] ?? null,
-        windSpeedMax: forecast.daily.wind_speed_10m_max[index] ?? null,
+        apparentTemperatureMax:
+          forecast.daily.apparent_temperature_max[index] ?? null,
+        apparentTemperatureMin:
+          forecast.daily.apparent_temperature_min[index] ?? null,
+        relativeHumidityMean:
+          forecast.daily.relative_humidity_2m_mean[index] ?? null,
       },
     ];
   });
@@ -398,10 +405,25 @@ export function formatWeatherDate(date: string, timezone: string): string {
       timeZone: timezone,
       month: "numeric",
       day: "numeric",
-      weekday: "short",
     }).format(parsed);
   } catch {
     return date;
+  }
+}
+
+export function formatWeatherWeekday(date: string, timezone: string): string {
+  const parsed = parseWeatherDate(date);
+  if (!parsed) {
+    return "";
+  }
+
+  try {
+    return new Intl.DateTimeFormat("zh-TW", {
+      timeZone: timezone,
+      weekday: "short",
+    }).format(parsed);
+  } catch {
+    return "";
   }
 }
 
