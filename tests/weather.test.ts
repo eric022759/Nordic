@@ -35,7 +35,7 @@ const payload = {
     temperature_2m: 17.4,
     apparent_temperature: 16.2,
     weather_code: 2,
-    wind_speed_10m: 13,
+    relative_humidity_2m: 78,
   },
   daily: {
     time: [

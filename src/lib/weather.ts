@@ -7,7 +7,7 @@ export const OPEN_METEO_CURRENT_FIELDS = [
   "temperature_2m",
   "apparent_temperature",
   "weather_code",
-  "wind_speed_10m",
+  "relative_humidity_2m",
 ] as const;
 
 export const OPEN_METEO_DAILY_FIELDS = [
@@ -97,7 +97,7 @@ export interface CurrentWeather {
   temperature_2m: number | null;
   apparent_temperature: number | null;
   weather_code: number | null;
-  wind_speed_10m: number | null;
+  relative_humidity_2m: number | null;
 }
 
 export interface DailyWeather {
@@ -166,7 +166,7 @@ export function normalizeWeatherForecast(
         currentValue.temperature_2m,
         currentValue.apparent_temperature,
         currentValue.weather_code,
-        currentValue.wind_speed_10m,
+        currentValue.relative_humidity_2m,
       ].some((item) => finiteNumber(item) !== null),
   );
 
@@ -180,7 +180,7 @@ export function normalizeWeatherForecast(
             currentValue.apparent_temperature,
           ),
           weather_code: finiteNumber(currentValue.weather_code),
-          wind_speed_10m: finiteNumber(currentValue.wind_speed_10m),
+          relative_humidity_2m: finiteNumber(currentValue.relative_humidity_2m),
         }
       : null;
 

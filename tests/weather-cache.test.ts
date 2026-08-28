@@ -50,7 +50,7 @@ const forecast = normalizeWeatherForecast({
     temperature_2m: 15,
     apparent_temperature: 14,
     weather_code: 3,
-    wind_speed_10m: 12,
+    relative_humidity_2m: 82,
   },
   daily: {
     time: ["2026-08-28", "2026-08-29"],

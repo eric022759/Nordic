@@ -18,7 +18,6 @@ import {
   Thermometer,
   TriangleAlert,
   WifiOff,
-  Wind,
   type LucideIcon,
 } from "lucide-react";
 import {
@@ -538,61 +537,89 @@ export function WeatherPanel({
             </p>
           ) : null}
 
-          <div className="grid gap-5 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,2.25fr)]">
-            <div className="rounded-2xl bg-[#17372c] p-4 text-white">
-              <p className="text-xs text-[#cbd8d1]">目前天氣</p>
-              {state.data.current ? (
-                <>
-                  <div className="mt-4 flex items-center gap-4">
+          <div>
+            <h4 className="text-sm font-semibold tracking-[0.08em] text-[#3d544a]">
+              目前與未來五天
+            </h4>
+            {state.data.current || forecastDays.length > 0 ? (
+              <ul className="mt-3 grid gap-2 [grid-template-columns:repeat(auto-fill,minmax(7.25rem,1fr))]">
+                {state.data.current ? (
+                  <li className="rounded-xl border border-[#17372c] bg-[#17372c] p-2.5 text-white">
+                    <time
+                      dateTime={state.data.current.time}
+                      className="block whitespace-nowrap text-sm font-semibold tabular-nums"
+                    >
+                      {formatWeatherDate(
+                        state.data.current.time.slice(0, 10),
+                        destination.timezone,
+                      )}
+                    </time>
+                    <p className="mt-0.5 whitespace-nowrap text-xs text-[#cbd8d1]">
+                      今天・目前
+                    </p>
                     <WeatherConditionIcon
                       code={state.data.current.weather_code}
-                      className="size-9 text-[#e0cf9c]"
+                      className="mt-3 size-7 text-[#e0cf9c]"
                     />
-                    <div>
-                      <p className="text-3xl font-light tabular-nums">
-                        {metric(state.data.current.temperature_2m, "°")}
-                      </p>
-                      <p className="mt-1 text-xs text-[#d8e1dc]">
-                        {currentCondition.description}
-                      </p>
-                    </div>
-                  </div>
-                  <dl className="mt-4 grid grid-cols-2 gap-2 border-t border-white/15 pt-3 text-xs">
-                    <div>
-                      <dt className="flex items-center gap-1.5 text-[#b9c9c0]">
-                        <PersonStanding aria-hidden="true" className="size-4" />
-                        體感
-                      </dt>
-                      <dd className="mt-1 tabular-nums">
-                        {metric(
-                          state.data.current.apparent_temperature,
-                          "°C",
-                        )}
-                      </dd>
-                    </div>
-                    <div>
-                      <dt className="flex items-center gap-1.5 text-[#b9c9c0]">
-                        <Wind aria-hidden="true" className="size-4" />
-                        風速
-                      </dt>
-                      <dd className="mt-1 tabular-nums">
-                        {metric(state.data.current.wind_speed_10m, " km/h")}
-                      </dd>
-                    </div>
-                  </dl>
-                </>
-              ) : (
-                <p className="mt-6 text-sm text-[#d8e1dc]">目前天氣資料暫缺</p>
-              )}
-            </div>
-
-            <div>
-              <h4 className="text-sm font-semibold tracking-[0.08em] text-[#3d544a]">
-                未來五天
-              </h4>
-              {forecastDays.length > 0 ? (
-                <ul className="mt-3 grid gap-2 [grid-template-columns:repeat(auto-fill,minmax(7.25rem,1fr))]">
-                  {forecastDays.map((day) => {
+                    <p className="mt-2 min-h-10 text-xs leading-5 text-[#d8e1dc]">
+                      {currentCondition.description}
+                    </p>
+                    <dl className="mt-2 space-y-1.5 text-sm text-[#d8e1dc]">
+                      <div
+                        className="flex items-center gap-1.5 whitespace-nowrap"
+                        title="溫度"
+                      >
+                        <dt className="shrink-0">
+                          <Thermometer
+                            aria-hidden="true"
+                            className="size-4 text-[#d1b47b]"
+                            strokeWidth={1.6}
+                          />
+                          <span className="sr-only">溫度</span>
+                        </dt>
+                        <dd className="font-semibold tabular-nums text-white">
+                          {metric(state.data.current.temperature_2m, "°C")}
+                        </dd>
+                      </div>
+                      <div
+                        className="flex items-center gap-1.5 whitespace-nowrap"
+                        title="體感"
+                      >
+                        <dt className="shrink-0">
+                          <PersonStanding
+                            aria-hidden="true"
+                            className="size-4 text-[#d1b47b]"
+                            strokeWidth={1.6}
+                          />
+                          <span className="sr-only">體感</span>
+                        </dt>
+                        <dd className="tabular-nums">
+                          {metric(
+                            state.data.current.apparent_temperature,
+                            "°C",
+                          )}
+                        </dd>
+                      </div>
+                      <div
+                        className="flex items-center gap-1.5 whitespace-nowrap"
+                        title="濕度"
+                      >
+                        <dt className="shrink-0">
+                          <Droplets
+                            aria-hidden="true"
+                            className="size-4 text-[#d1b47b]"
+                            strokeWidth={1.6}
+                          />
+                          <span className="sr-only">濕度</span>
+                        </dt>
+                        <dd className="tabular-nums">
+                          {metric(state.data.current.relative_humidity_2m, "%")}
+                        </dd>
+                      </div>
+                    </dl>
+                  </li>
+                ) : null}
+                {forecastDays.map((day) => {
                     const condition = getWmoWeather(day.weatherCode);
                     const isTripDate = tripDate === day.date;
                     return (
@@ -676,13 +703,12 @@ export function WeatherPanel({
                       </li>
                     );
                   })}
-                </ul>
-              ) : (
-                <p className="mt-3 rounded-xl border border-[#d8ded9] bg-white p-4 text-sm text-[#59675f]">
-                  未來五天天氣資料暫缺
-                </p>
-              )}
-            </div>
+              </ul>
+            ) : (
+              <p className="mt-3 rounded-xl border border-[#d8ded9] bg-white p-4 text-sm text-[#59675f]">
+                天氣資料暫缺
+              </p>
+            )}
           </div>
 
           <div className="mt-5 flex flex-wrap items-center justify-between gap-2 border-t border-[#d8ded9] pt-4 text-xs text-[#5f6d65]">
