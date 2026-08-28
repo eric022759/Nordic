@@ -297,7 +297,7 @@ function DayDetails({
       </div>
 
       {destination ? (
-        <div className="mt-8 grid gap-5 xl:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
+        <div className="mt-8 grid gap-5 xl:grid-cols-[minmax(0,0.6fr)_minmax(0,1.4fr)]">
           <aside className="rounded-2xl bg-[var(--pine-900)] p-5 text-[var(--snow)] sm:p-6" aria-labelledby={`day-${day.day}-culture`}>
             <div className="flex items-center gap-3">
               <Info className="size-4 text-[var(--brass-300)]" aria-hidden />
