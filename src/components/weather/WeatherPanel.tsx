@@ -591,7 +591,7 @@ export function WeatherPanel({
                 未來五天
               </h4>
               {forecastDays.length > 0 ? (
-                <ul className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-5">
+                <ul className="mt-3 grid gap-2 [grid-template-columns:repeat(auto-fill,minmax(7.25rem,1fr))]">
                   {forecastDays.map((day) => {
                     const condition = getWmoWeather(day.weatherCode);
                     const isTripDate = tripDate === day.date;
@@ -620,7 +620,7 @@ export function WeatherPanel({
                         <p className="mt-2 min-h-10 text-xs leading-5 text-[#4d5c54]">
                           {condition.description}
                         </p>
-                        <dl className="mt-2 space-y-1.5 text-[11px] leading-4 text-[#4d5c54]">
+                        <dl className="mt-2 space-y-1.5 text-sm text-[#4d5c54]">
                           <div
                             className="flex items-center gap-1.5 whitespace-nowrap"
                             title="天氣"
@@ -628,7 +628,7 @@ export function WeatherPanel({
                             <dt className="shrink-0">
                               <Thermometer
                                 aria-hidden="true"
-                                className="size-3 text-[#8a6d33]"
+                                className="size-4 text-[#8a6d33]"
                                 strokeWidth={1.6}
                               />
                               <span className="sr-only">天氣</span>
@@ -644,7 +644,7 @@ export function WeatherPanel({
                             <dt className="shrink-0">
                               <PersonStanding
                                 aria-hidden="true"
-                                className="size-3 text-[#8a6d33]"
+                                className="size-4 text-[#8a6d33]"
                                 strokeWidth={1.6}
                               />
                               <span className="sr-only">體感</span>
@@ -663,7 +663,7 @@ export function WeatherPanel({
                             <dt className="shrink-0">
                               <Droplets
                                 aria-hidden="true"
-                                className="size-3 text-[#8a6d33]"
+                                className="size-4 text-[#8a6d33]"
                                 strokeWidth={1.6}
                               />
                               <span className="sr-only">濕度</span>
