@@ -76,7 +76,7 @@ describe("weather localStorage cache", () => {
       true,
     );
     expect(getWeatherCacheKey(destination.id)).toBe(
-      "nordic-trip-weather:oslo",
+      "nordic-trip-weather:v2:oslo",
     );
 
     expect(

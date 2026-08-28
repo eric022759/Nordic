@@ -8,7 +8,7 @@ import {
 
 export const WEATHER_CACHE_TTL_MS = 30 * 60 * 1000;
 export const WEATHER_REFRESH_COOLDOWN_MS = 60 * 1000;
-export const WEATHER_CACHE_PREFIX = "nordic-trip-weather:";
+export const WEATHER_CACHE_PREFIX = "nordic-trip-weather:v2:";
 
 export interface WeatherCacheEntry {
   fetchedAt: number;

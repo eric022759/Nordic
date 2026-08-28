@@ -542,7 +542,7 @@ export function WeatherPanel({
               目前與未來五天
             </h4>
             {state.data.current || forecastDays.length > 0 ? (
-              <ul className="mt-3 grid gap-2 [grid-template-columns:repeat(auto-fill,minmax(7.25rem,1fr))]">
+              <ul className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
                 {state.data.current ? (
                   <li className="rounded-xl border border-[#17372c] bg-[#17372c] p-2.5 text-white">
                     <time
