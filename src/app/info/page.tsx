@@ -4,7 +4,6 @@ import { ScenicPageShell } from "@/components/site/ScenicPageShell";
 import { EmergencyContactCard } from "@/components/trip/EmergencyContactCard";
 import { StatusBadge } from "@/components/site/StatusBadge";
 import { destinations } from "@/data/destinations";
-import { imageCredits } from "@/data/images";
 import { trip } from "@/data/trip";
 import { getTripTimeZoneOffset } from "@/lib/timezones";
 import {
@@ -12,7 +11,6 @@ import {
   CloudSun,
   ExternalLink,
   Globe2,
-  ImageIcon,
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -219,37 +217,6 @@ export default function InfoPage() {
                 <ExternalLink aria-hidden="true" className="h-4 w-4" />
               </a>
             </div>
-          </div>
-        </section>
-
-        <section aria-labelledby="attribution-title">
-          <div className="flex items-center gap-4">
-            <ImageIcon aria-hidden="true" className="h-7 w-7 text-[var(--pine-700)]" />
-            <h2 id="attribution-title" className="section-title">圖片來源與授權</h2>
-          </div>
-          <div className="mt-7 grid gap-5 lg:grid-cols-2">
-            {imageCredits.map((credit) => {
-              const sourceHref = credit.sourceUrl.startsWith("/") ? `..${credit.sourceUrl}` : credit.sourceUrl;
-              return (
-                <article key={credit.id} className="surface-card min-w-0 p-6">
-                  <p className="font-mono text-xs text-[var(--stone-500)]">{credit.src}</p>
-                  <h3 className="mt-3 text-lg font-semibold text-[var(--pine-950)]">{credit.alt}</h3>
-                  <dl className="mt-4 grid gap-2 text-sm leading-6 text-[var(--stone-700)]">
-                    <div className="flex gap-2"><dt className="font-semibold">作者：</dt><dd>{credit.author}</dd></div>
-                    <div><dt className="font-semibold">授權／使用說明：</dt><dd className="mt-1">{credit.licenseOrUsageNote}</dd></div>
-                  </dl>
-                  <a
-                    href={sourceHref}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-4 inline-flex min-h-11 items-center gap-2 break-all font-semibold text-[var(--pine-700)] underline decoration-[var(--brass-400)] underline-offset-4"
-                  >
-                    查看圖片來源
-                    <ExternalLink aria-hidden="true" className="h-4 w-4 shrink-0" />
-                  </a>
-                </article>
-              );
-            })}
           </div>
         </section>
       </div>
